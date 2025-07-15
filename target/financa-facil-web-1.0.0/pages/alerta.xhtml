@@ -1,0 +1,131 @@
+<ui:composition template="/templates/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">Alertas</ui:define>
+    <ui:define name="content">
+
+        <h:form styleClass="page-container">
+            <style>
+                .page-container { padding:2rem; }
+
+                .header-bar {
+                  display: flex;
+                  align-items: center;
+                  justify-content: space-between;
+                  gap: 1rem;
+                  margin-bottom: 2rem;
+                }
+                .header-bar .titulo {
+                  font-size: 2rem;
+                  font-weight: bold;
+                  color: #1f2937;
+                  margin: 0;
+                }
+                .header-bar .subtitulo {
+                  font-size: .9rem;
+                  color: #6b7280;
+                  margin: .25rem 0 0;
+                }
+
+                .summary-grid {
+                  display: grid;
+                  gap: 1rem;
+                  margin-bottom: 2rem;
+                }
+                @media(min-width:768px) {
+                  .summary-grid { grid-template-columns: repeat(4,1fr); }
+                }
+                .card-highlight { font-size:1.6rem; font-weight:bold; }
+                .card-highlight.red   { color:#dc2626; }
+                .card-highlight.green { color:#16a34a; }
+
+                .list-item {
+                  margin-bottom:1rem;
+                  padding:1rem;
+                  border:1px solid #e5e7eb;
+                  border-radius:8px;
+                  background-color:#f8fafc;
+                }
+            </style>
+
+            <!-- Header -->
+            <div class="header-bar">
+                <div>
+                    <h2 class="titulo">Alertas</h2>
+                    <p class="subtitulo">Fique por dentro das suas finanças</p>
+                </div>
+                <p:commandButton icon="pi pi-cog"
+                                 value="Configurar Alertas"
+                                 action="/pages/config-alertas.xhtml?faces-redirect=true"
+                                 styleClass="ui-button-outlined"
+                                 style="height:2.5rem;" />
+            </div>
+
+            <!-- Resumo -->
+            <div class="summary-grid">
+                <p:panel header="Não Visualizados">
+                    <h:outputText value="#{alertaBean.qtdNaoVisualizados}"
+                                  styleClass="card-highlight red" />
+                </p:panel>
+                <p:panel header="Total de Alertas">
+                    <h:outputText value="#{alertaBean.total}"
+                                  styleClass="card-highlight" />
+                </p:panel>
+                <p:panel header="Alta Prioridade">
+                    <h:outputText value="#{alertaBean.qtdAltaPrioridade}"
+                                  styleClass="card-highlight red" />
+                </p:panel>
+                <p:panel header="Visualizados">
+                    <h:outputText value="#{alertaBean.qtdVisualizados}"
+                                  styleClass="card-highlight green" />
+                </p:panel>
+            </div>
+
+            <!-- Mensagem de alerta não visualizado -->
+            <p:messages showDetail="false" closable="true"
+                        rendered="#{alertaBean.qtdNaoVisualizados > 0}">
+                <p:message severity="warn"
+                           summary="Você tem #{alertaBean.qtdNaoVisualizados} alerta(s) não visualizado(s)!" />
+            </p:messages>
+
+            <!-- Lista de Alertas -->
+            <p:panel header="Todos os Alertas">
+                <ui:repeat var="a" value="#{alertaBean.lista}">
+                    <div class="list-item">
+                        <h:panelGrid columns="2" columnClasses="left,right">
+                            <h:panelGroup>
+                                <h:outputText value="#{a.titulo}" style="font-weight:bold" /><br/>
+                                <h:outputText value="#{a.descricao}" /><br/>
+                                <small>#{a.data}</small><br/>
+                                <p:badge value="#{a.prioridade}"
+                                         severity="#{a.prioridade eq 'high' ? 'danger':'info'}" />
+                                <p:badge value="Novo"
+                                         rendered="#{!a.visualizado}"
+                                         severity="danger" />
+                            </h:panelGroup>
+                            <h:panelGroup style="text-align:right">
+                                <p:commandButton value="Marcar como Lido"
+                                                 icon="pi pi-check"
+                                                 rendered="#{!a.visualizado}"
+                                                 action="#{alertaBean.marcarComoLido(a.id)}"
+                                                 update="@form"
+                                                 styleClass="ui-button-outlined ui-button-sm" />
+                                <p:spacer width="5" />
+                                <p:commandButton value="Descartar"
+                                                 icon="pi pi-times"
+                                                 action="#{alertaBean.descartar(a.id)}"
+                                                 update="@form"
+                                                 styleClass="ui-button-secondary ui-button-sm" />
+                            </h:panelGroup>
+                        </h:panelGrid>
+                    </div>
+                </ui:repeat>
+            </p:panel>
+
+        </h:form>
+    </ui:define>
+</ui:composition>

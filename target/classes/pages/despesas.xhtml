@@ -1,0 +1,219 @@
+<ui:composition template="/templates/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">Despesas</ui:define>
+
+    <ui:define name="content">
+        <h:form styleClass="page-container">
+            <style>
+                .titulo { font-size: 2rem; font-weight: bold; color: #b91c1c; }
+                .subtitulo { color: #6b7280; margin-bottom: 2rem; }
+
+                .card-resumo {
+                    background: linear-gradient(to right, #ef4444, #b91c1c);
+                    color: white;
+                    border-radius: 10px;
+                    padding: 1.5rem;
+                    margin-bottom: 2rem; /* Espaçamento entre o card vermelho e o filtro */
+                }
+
+                .painel-topo {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-bottom: 2rem;
+                }
+
+                .badge {
+                    padding: 0.2rem 0.6rem;
+                    border-radius: 6px;
+                    font-size: 0.75rem;
+                    background-color: #f3f4f6;
+                    color: #1f2937;
+                }
+
+                .painel-card {
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.painel-card,
+.painel-card .ui-panel-content {
+    border-radius: 14px !important;
+}
+
+
+
+                .ui-panel-titlebar {
+                    display: none;
+                }
+
+                .filtros-grid {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 1rem;
+                    align-items: center;
+                }
+
+                .input-icon-wrapper {
+                    position: relative;
+                    flex: 1;
+                }
+
+                .input-icon-wrapper i {
+                    position: absolute;
+                    top: 50%;
+                    left: 10px;
+                    transform: translateY(-50%);
+                    color: #9ca3af;
+                }
+
+                .input-icon-wrapper input {
+                    padding-left: 2rem;
+                }
+
+                .lista-despesas {
+                    margin-bottom: 2rem;
+                }
+
+                .despesa-card {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    background: #fff;
+                    padding: 1rem;
+                    border-radius: 14px;
+                    margin-bottom: 1.75rem;
+                    border: 1px solid #e5e7eb;
+                    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+                    animation: fadeIn 0.4s ease-in-out;
+                }
+
+                @keyframes fadeIn {
+                    from { opacity: 0; transform: translateY(10px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+
+                .info-esquerda {
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .info-direita {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                }
+
+                .valor-despesa {
+                    font-size: 1.2rem;
+                    font-weight: bold;
+                    color: #dc2626;
+                    margin-right: 0.5rem;
+                }
+
+                h4 {
+                    font-weight: normal;
+                    margin-bottom: 1rem; /* Espaço entre título e conteúdo */
+                }
+            </style>
+
+            <!-- Cabeçalho -->
+            <div class="painel-topo">
+                <div>
+                    <h:outputText value="Despesas" styleClass="titulo" /><br/>
+                    <h:outputText value="Controle e gerencie seus gastos" styleClass="subtitulo" />
+                </div>
+                <p:commandButton value="Nova Despesa" icon="pi pi-plus"
+                                 action="/pages/despesasNova.xhtml?faces-redirect=true"
+                                 styleClass="ui-button-danger" />
+            </div>
+
+            <!-- Cartão Resumo -->
+            <div class="card-resumo">
+                <h:panelGrid columns="2" width="100%">
+                    <h:panelGroup>
+                        <h:outputText value="Total de Despesas" style="color: #fee2e2;" /><br/>
+                        <h:outputText value="#{despesaBean.totalDespesasFormatado}" style="font-size: 2rem; font-weight: bold;" /><br/>
+                        <h:outputText value="#{despesaBean.qtdDespesas} transações este mês" style="color: #fee2e2; font-size: 0.9rem;" />
+                    </h:panelGroup>
+                    <h:panelGroup style="text-align: right;">
+                        <i class="pi pi-arrow-down" style="font-size: 2rem; color: #fecaca;"></i>
+                    </h:panelGroup>
+                </h:panelGrid>
+            </div>
+
+            <!-- Filtros -->
+            <p:panel styleClass="painel-card">
+                <h4>Filtros de Despesas</h4>
+                <div class="filtros-grid">
+                    <div class="input-icon-wrapper">
+                        <i class="pi pi-search"></i>
+                        <p:inputText placeholder="Buscar despesas..."
+                                     value="#{despesaBean.filtroDescricao}"
+                                     styleClass="ui-inputfield"
+                                     style="width: 100%; height: 2.5rem;" />
+                    </div>
+
+                    <p:selectOneMenu value="#{despesaBean.filtroCategoria}">
+                        <f:selectItem itemLabel="Todas as categorias" itemValue="ALL" />
+                        <f:selectItems value="#{despesaBean.categorias}" var="c"
+                                       itemLabel="#{c.label}" itemValue="#{c.codigo}" />
+                    </p:selectOneMenu>
+
+                    <p:commandButton value="Buscar"
+                                     action="#{despesaBean.buscar}"
+                                     icon="pi pi-search"
+                                     update="@form"
+                                     styleClass="ui-button ui-button-primary" />
+                </div>
+            </p:panel>
+
+            <!-- Lista de Despesas -->
+            <p:panel styleClass="painel-card">
+                <h4>Lista de Despesas</h4>
+                <div class="lista-despesas">
+                    <ui:repeat var="d" value="#{despesaBean.despesasFiltradas}">
+                        <div class="despesa-card">
+                            <!-- Esquerda -->
+                            <div class="info-esquerda">
+                                <h:outputText value="#{d.descricao}" style="font-weight: bold;" />
+                                <span class="badge" style="background-color: #{d.corCategoria};">#{d.nomeCategoria}</span>
+                                <span style="font-size: 0.85rem; color: #6b7280;">
+                    #{d.data} • #{d.formaPagamento}
+                </span>
+                            </div>
+
+                            <!-- Direita -->
+                            <div class="info-direita">
+                                <h:outputText value="#{d.valorFormatado}" styleClass="valor-despesa" />
+
+                                <!-- Botão de editar -->
+                                <p:button icon="pi pi-pencil"
+                                          title="Editar"
+                                          outcome="/pages/despesasNova.xhtml"
+                                          styleClass="ui-button-outlined ui-button-sm">
+                                    <f:param name="id" value="#{d.id}" />
+                                </p:button>
+
+                                <!-- Botão de excluir -->
+                                <p:commandButton icon="pi pi-trash"
+                                                 title="Excluir"
+                                                 action="#{despesaBean.excluir(d.id)}"
+                                                 update="@form"
+                                                 styleClass="ui-button-danger ui-button-outlined ui-button-sm" />
+                            </div>
+                        </div>
+                    </ui:repeat>
+                </div>
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>

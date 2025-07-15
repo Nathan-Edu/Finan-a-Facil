@@ -1,0 +1,94 @@
+/* RESET GERAL */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  color: #111827;
+}
+
+/* APENAS PARA LOGIN */
+body.login-page {
+  background: linear-gradient(to right, #e0f7fa, #f1fff0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+/* CONTAINER CENTRAL LOGIN */
+.login-card {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.login-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #2563eb;
+  margin-bottom: 0.5rem;
+}
+
+.login-subtitle {
+  font-size: 1rem;
+  color: #6b7280;
+  margin-bottom: 1.5rem;
+}
+
+.login-input {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.login-btn {
+  width: 100%;
+  background-color: #4caf50;
+  border: none;
+  color: white;
+  font-weight: bold;
+}
+
+.login-btn:hover {
+  background-color: #388e3c;
+}
+
+/* LINK CADASTRO */
+.login-register {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.login-register a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+/* INFO DE TESTE */
+.login-info {
+  font-size: 0.8rem;
+  margin-top: 1rem;
+  color: #6b7280;
+}
+
+.login-info strong {
+  color: #111827;
+}
+
+/* PÁGINAS INTERNAS */
+body:not(.login-page) {
+  background-color: #f9fafb;
+}
+
+.main-content {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}

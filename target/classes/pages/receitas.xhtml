@@ -1,0 +1,229 @@
+<ui:composition template="/templates/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">Receitas</ui:define>
+
+    <ui:define name="content">
+        <h:form styleClass="page-container">
+
+            <style>
+                .page-container {
+                    padding: 2rem;
+                }
+
+                .header-bar {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    margin-bottom: 2rem;
+                }
+
+                .titulo {
+                    font-size: 2rem;
+                    font-weight: bold;
+                    color: #16a34a;
+                    margin: 0;
+                }
+
+                .subtitulo {
+                    font-size: 0.9rem;
+                    color: #6b7280;
+                    margin-top: 0.25rem;
+                }
+
+                .grid-cards {
+                    display: grid;
+                    gap: 1rem;
+                    margin-bottom: 2rem;
+                }
+
+                @media (min-width: 768px) {
+                    .grid-3 {
+                        grid-template-columns: repeat(3, 1fr);
+                    }
+                }
+
+                .receita-verde {
+                    color: #16a34a;
+                    font-weight: bold;
+                    font-size: 1.5rem;
+                }
+
+                .borda-receita {
+                    border: 1px solid #e5e7eb;
+                    background: #fff;
+                    padding: 1rem;
+                    border-radius: 12px;
+                    margin-bottom: 1rem;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+                }
+
+                .botoes-acoes {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                }
+
+                .filtro-container {
+                    display: flex;
+                    gap: 1rem;
+                    margin-top: 1rem;
+                }
+
+                .painel-card {
+                    background-color: transparent;
+                    border: none;
+                    padding: 0;
+                    margin-bottom: 1.5rem;
+                }
+
+                .painel-card > .ui-panel-content {
+                    background-color: #ffffff !important;
+                    border-radius: 14px !important;
+                    border: 1px solid #e5e7eb !important;
+                    padding: 1.25rem !important;
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+                }
+
+                .painel-card h3,
+                .painel-card h4 {
+                    margin-top: 0;
+                    margin-bottom: 1rem;
+                    font-weight: 600;
+                }
+
+                .p-panel .ui-panel-titlebar {
+                    display: none;
+                }
+
+                .ui-button-success {
+                    background-color: #16a34a !important;
+                    border: none !important;
+                    color: #fff !important;
+                    font-weight: bold;
+                }
+
+                .btn-editar {
+                    background-color: #ffffff !important;
+                    border: 1px solid #3b82f6 !important;
+                    color: #3b82f6 !important;
+                }
+
+                .btn-excluir {
+                    background-color: #ffffff !important;
+                    border: 1px solid #ef4444 !important;
+                    color: #ef4444 !important;
+                }
+
+                .btn-editar:hover {
+                    background-color: #ebf4ff !important;
+                }
+
+                .btn-excluir:hover {
+                    background-color: #fef2f2 !important;
+                }
+            </style>
+
+            <!-- TÍTULO E BOTÃO -->
+            <div class="header-bar">
+                <div>
+                    <h2 class="titulo">Receitas</h2>
+                    <p class="subtitulo">Gerencie suas fontes de renda</p>
+                </div>
+
+                <p:commandButton value="Nova Receita"
+                                 icon="pi pi-plus"
+                                 styleClass="ui-button-success"
+                                 action="/pages/receitasNova.xhtml?faces-redirect=true"
+                                 style="height:2.5rem;" />
+            </div>
+
+            <!-- CARDS DE RESUMO -->
+            <div class="grid-cards grid-3">
+                <p:panel styleClass="painel-card">
+                    <h4>Total de Receitas</h4>
+                    <h:outputText value="#{receitasBean.total}" styleClass="receita-verde">
+                        <f:convertNumber type="currency" currencySymbol="R$ " groupingUsed="true" maxFractionDigits="2"/>
+                    </h:outputText>
+                </p:panel>
+
+                <p:panel styleClass="painel-card">
+                    <h4>Receitas este Mês</h4>
+                    <h:outputText value="#{receitasBean.totalMesAtual}" style="font-size:1.5rem;">
+                        <f:convertNumber type="currency" currencySymbol="R$ " groupingUsed="true" maxFractionDigits="2"/>
+                    </h:outputText>
+                </p:panel>
+
+                <p:panel styleClass="painel-card">
+                    <h4>Fontes de Renda</h4>
+                    <h:outputText value="#{receitasBean.qtdFontes}" style="font-size:1.5rem; font-weight:bold;" />
+                </p:panel>
+            </div>
+
+
+            <!-- FILTRO DE RECEITAS -->
+            <p:panel styleClass="painel-card">
+                <h4>Filtrar Receitas</h4>
+                <div class="filtro-container">
+                    <p:inputText value="#{receitasBean.filtroDescricao}"
+                                 placeholder="Buscar por descrição..."
+                                 style="flex: 1; height:2.5rem; padding:0 1rem;" />
+                    <p:commandButton value="Buscar"
+                                     icon="pi pi-search"
+                                     update="@form"
+                                     action="#{receitasBean.filtrar}"
+                                     style="height:2.5rem;" />
+                </div>
+            </p:panel>
+
+            <!-- LISTA DE RECEITAS -->
+            <p:panel styleClass="painel-card">
+                <h4>Suas Receitas</h4>
+
+                <ui:repeat var="r" value="#{receitasBean.listaFiltrada}" rendered="#{not empty receitasBean.listaFiltrada}">
+                    <div class="borda-receita">
+
+                        <!-- Informações da Receita -->
+                        <div>
+                            <h:outputText value="#{r.descricao}" style="font-weight: bold;" /><br />
+                            <small>
+                                #{r.dataFormatada} -
+                                <h:outputText value="#{r.valor}">
+                                    <f:convertNumber type="currency" currencySymbol="R$ " groupingUsed="true" maxFractionDigits="2"/>
+                                </h:outputText>
+                            </small><br />
+                            <p:badge value="#{r.categoria}" severity="info" />
+                        </div>
+
+                        <!-- Botões de Ação -->
+                        <div class="botoes-acoes">
+                            <!-- Editar -->
+                            <h:link outcome="/pages/receitasNova.xhtml">
+                                <f:param name="id" value="#{r.id}" />
+                                <p:commandButton icon="pi pi-pencil"
+                                                 title="Editar"
+                                                 styleClass="btn-editar ui-button-sm" />
+                            </h:link>
+
+                            <!-- Excluir -->
+                            <p:commandButton icon="pi pi-trash"
+                                             title="Excluir"
+                                             action="#{receitasBean.excluir(r.id)}"
+                                             update="@form"
+                                             process="@this"
+                                             styleClass="btn-excluir ui-button-sm" />
+                        </div>
+                    </div>
+                </ui:repeat>
+            </p:panel>
+
+        </h:form>
+    </ui:define>
+</ui:composition>

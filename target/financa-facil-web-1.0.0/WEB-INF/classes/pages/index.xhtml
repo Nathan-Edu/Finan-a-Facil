@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Finança Fácil</title>
+    <meta charset="UTF-8"/>
+    <style>
+        body {
+            margin: 0;
+            font-family: "Segoe UI", sans-serif;
+            background: linear-gradient(to bottom right, #e0f2ff, #f0fff4);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 1rem;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #1f2937;
+        }
+
+        .highlight {
+            color: #2563eb;
+        }
+
+        .hero-sub {
+            font-size: 1.2rem;
+            color: #4b5563;
+            margin-top: 1rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btns {
+            margin-top: 2rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 4rem;
+        }
+
+        .feature-card {
+            text-align: center;
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 0 8px rgba(0,0,0,0.05);
+        }
+
+        .stats {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-top: 4rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .blue { color: #2563eb; }
+        .green { color: #16a34a; }
+        .purple { color: #7c3aed; }
+    </style>
+</h:head>
+
+<h:body>
+    <h:form>
+        <div class="container">
+
+            <!-- Hero Section -->
+            <div style="text-align: center;">
+                <h1 class="hero-title">
+                    Finança <span class="highlight">Fácil</span>
+                </h1>
+                <p class="hero-sub">
+                    Transforme sua relação com o dinheiro. Controle suas finanças pessoais
+                    de forma inteligente e tome decisões financeiras mais assertivas.
+                </p>
+                <div class="btns">
+                    <p:commandButton value="Começar Agora"
+                                     action="/pages/login.xhtml?faces-redirect=true"
+                                     styleClass="ui-button-success"
+                                     style="margin-right: 1rem; font-size: 1.1rem; padding: 1rem 2rem;" />
+                    <p:commandButton value="Saiba Mais"
+                                     action="/pages/sobre.xhtml?faces-redirect=true"
+                                     styleClass="ui-button-secondary"
+                                     style="font-size: 1.1rem; padding: 1rem 2rem;" />
+                </div>
+            </div>
+
+            <!-- Functionalities -->
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="pi pi-chart-line" style="font-size: 2rem; color: #2563eb;"></i>
+                    <h3>Controle Total</h3>
+                    <p>Gerencie suas despesas e receitas de forma simples e eficiente</p>
+                </div>
+                <div class="feature-card">
+                    <i class="pi pi-shield" style="font-size: 2rem; color: #16a34a;"></i>
+                    <h3>Seguro e Confiável</h3>
+                    <p>Seus dados financeiros protegidos com a máxima segurança</p>
+                </div>
+                <div class="feature-card">
+                    <i class="pi pi-mobile" style="font-size: 2rem; color: #7c3aed;"></i>
+                    <h3>Acesso Fácil</h3>
+                    <p>Interface responsiva para usar em qualquer dispositivo</p>
+                </div>
+                <div class="feature-card">
+                    <i class="pi pi-chart-bar" style="font-size: 2rem; color: #f59e0b;"></i>
+                    <h3>Relatórios Inteligentes</h3>
+                    <p>Visualize seus gastos com gráficos e alertas automáticos</p>
+                </div>
+            </div>
+
+            <!-- Statistics -->
+            <div class="stats">
+                <div class="stats-grid">
+                    <div>
+                        <div class="stat-number blue">100%</div>
+                        <div>Gratuito</div>
+                    </div>
+                    <div>
+                        <div class="stat-number green">5+</div>
+                        <div>Funcionalidades</div>
+                    </div>
+                    <div>
+                        <div class="stat-number purple">24/7</div>
+                        <div>Disponível</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </h:form>
+</h:body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>Sobre o Finança Fácil</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            max-width: 600px;
+            margin: 0 auto;
+            padding-left: 0;
+        }
+    </style>
+</h:head>
+<h:body style="background: linear-gradient(to bottom right, #eff6ff, #ffffff, #ecfdf5); padding: 2rem; font-family: 'Inter', sans-serif;">
+
+    <h:form>
+        <h:panelGroup layout="block">
+
+            <!-- Header -->
+            <div style="text-align:center; max-width: 800px; margin: 0 auto 4rem;">
+                <h1 style="font-size: 2.5rem; font-weight: bold; color: #1f2937; margin-bottom: 1rem;">
+                    Sobre o <span style="color: #2563eb;">Finança Fácil</span>
+                </h1>
+                <p style="font-size: 1.2rem; color: #4b5563;">
+                    Uma plataforma completa para você tomar controle das suas finanças pessoais
+                    de forma simples, inteligente e segura.
+                </p>
+            </div>
+
+            <!-- Proposta -->
+            <p:card style="margin-bottom: 3rem; border-radius: 1rem; max-width: 900px; margin-left: auto; margin-right: auto;">
+                <f:facet name="title">
+                    <h2 style="text-align:center; font-size: 2rem; font-weight: bold; color: #1f2937;">Nossa Proposta</h2>
+                </f:facet>
+                <div style="max-width: 700px; margin: 0 auto; font-size: 1.1rem; color: #374151;">
+                    <p>
+                        O <strong>Finança Fácil</strong> nasceu da necessidade de democratizar o controle financeiro pessoal.
+                        Sabemos que gerenciar dinheiro pode ser complicado, especialmente quando você não tem as ferramentas certas.
+                    </p>
+                    <p>
+                        Nossa missão é <strong>simplificar sua vida financeira</strong>, oferecendo uma plataforma intuitiva
+                        que te ajuda a entender para onde vai seu dinheiro e como você pode otimizar seus gastos.
+                    </p>
+                    <p>
+                        Acreditamos que <strong>educação financeira</strong> deve ser acessível a todos. Por isso, o Finança Fácil
+                        é completamente gratuito e não possui anúncios ou taxas ocultas.
+                    </p>
+                </div>
+            </p:card>
+
+            <!-- Benefícios -->
+            <div style="margin-bottom: 4rem; max-width: 900px; margin-left: auto; margin-right: auto;">
+                <h2 style="text-align:center; font-size: 2rem; font-weight: bold; color: #1f2937; margin-bottom: 2rem;">
+                    Por que escolher o Finança Fácil?
+                </h2>
+                <div class="benefits-grid">
+
+                    <p:card style="padding: 1.5rem;">
+                        <h:outputText value="🎯 Controle Total das Finanças" style="font-weight: bold; font-size: 1.2rem; color: #111827;"/><br/>
+                        <h:outputText value="Tenha uma visão completa de suas receitas, despesas e investimentos em um só lugar." style="color: #4b5563;"/>
+                    </p:card>
+
+                    <p:card style="padding: 1.5rem;">
+                        <h:outputText value="📊 Relatórios Inteligentes" style="font-weight: bold; font-size: 1.2rem; color: #111827;"/><br/>
+                        <h:outputText value="Gráficos e análises que ajudam você a entender seus padrões de gastos." style="color: #4b5563;"/>
+                    </p:card>
+
+                    <p:card style="padding: 1.5rem;">
+                        <h:outputText value="🛡️ 100% Seguro" style="font-weight: bold; font-size: 1.2rem; color: #111827;"/><br/>
+                        <h:outputText value="Seus dados ficam protegidos com criptografia de ponta a ponta." style="color: #4b5563;"/>
+                    </p:card>
+
+                    <p:card style="padding: 1.5rem;">
+                        <h:outputText value="📱 Acesso em Qualquer Lugar" style="font-weight: bold; font-size: 1.2rem; color: #111827;"/><br/>
+                        <h:outputText value="Use no computador, tablet ou celular - sempre sincronizado." style="color: #4b5563;"/>
+                    </p:card>
+
+                </div>
+            </div>
+
+            <!-- Funcionalidades -->
+            <p:card style="margin-bottom: 3rem; background-color: #eff6ff; border-radius: 1rem; max-width: 900px; margin-left: auto; margin-right: auto;">
+                <f:facet name="title">
+                    <h2 style="text-align:center; font-size: 2rem; font-weight: bold; color: #1f2937;">Funcionalidades Principais</h2>
+                </f:facet>
+                <ul class="features-grid" style="font-size: 1.1rem; color: #374151;">
+                    <li>✅ Cadastro de despesas e receitas</li>
+                    <li>✅ Controle de contas parceladas</li>
+                    <li>✅ Alertas personalizados de gastos</li>
+                    <li>✅ Relatórios detalhados</li>
+                    <li>✅ Gráficos interativos</li>
+                    <li>✅ Interface intuitiva e moderna</li>
+                </ul>
+            </p:card>
+
+            <!-- Comunidade -->
+            <p:card style="text-align:center; margin-bottom: 3rem; max-width: 900px; margin-left: auto; margin-right: auto;">
+                <f:facet name="title">
+                    <h2 style="font-size: 2rem; font-weight: bold; color: #1f2937;">Junte-se à Nossa Comunidade</h2>
+                </f:facet>
+                <p style="font-size: 1.1rem; color: #4b5563; max-width: 600px; margin: 0 auto;">
+                    Milhares de pessoas já estão transformando sua relação com o dinheiro usando o Finança Fácil.
+                    Faça parte desta comunidade de pessoas que buscam independência financeira.
+                </p>
+            </p:card>
+
+            <!-- Botões -->
+            <div style="text-align:center;">
+                <p:commandButton value="Voltar" style="font-size: 1rem; padding: 0.8rem 2rem; background-color: transparent; border: 1px solid #2563eb; color: #2563eb; margin: 0 1rem;"
+                                 onclick="window.location.href='index.xhtml'; return false;" />
+
+                <p:commandButton value="Vamos Começar" style="font-size: 1rem; padding: 0.8rem 2rem; background-color: #2563eb; border: none; color: white;"
+                                 onclick="window.location.href='login.xhtml'; return false;" />
+            </div>
+
+        </h:panelGroup>
+    </h:form>
+
+</h:body>
+</html>

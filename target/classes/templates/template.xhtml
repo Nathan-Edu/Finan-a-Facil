@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:outputStylesheet library="css" name="style.css"/>
+
+<h:head>
+    <title><ui:insert name="title">Finança Fácil</ui:insert></title>
+    <meta charset="UTF-8"/>
+    <style>
+        body {
+            margin: 0;
+            font-family: "Segoe UI", sans-serif;
+            background-color: #f9fafb;
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 2rem;
+            background-color: white;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .topbar-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #2563eb;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            margin-right: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            margin-left: 4rem;
+        }
+
+        .nav-link {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #374151;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover {
+            color: #2563eb;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .usuario-logado {
+            font-size: 0.9rem;
+            color: #2563eb;
+            font-weight: 600;
+        }
+
+        .logout-button {
+            border: 1px solid #2563eb;
+            color: #2563eb;
+            font-size: 0.85rem;
+        }
+    </style>
+</h:head>
+
+<h:body>
+
+    <div class="topbar">
+        <!-- Lado Esquerdo: Logo + Navegação -->
+        <div class="topbar-left">
+            <h:link outcome="/pages/dashboard.xhtml" styleClass="logo">
+                <i class="pi pi-home"></i> Finança Fácil
+            </h:link>
+
+            <div class="nav-links">
+                <h:link outcome="/pages/dashboard.xhtml" styleClass="nav-link">
+                    <i class="pi pi-home" style="margin-right: 5px;"></i> Dashboard
+                </h:link>
+                <h:link outcome="/pages/receitas.xhtml" styleClass="nav-link">
+                    <i class="pi pi-wallet" style="margin-right: 5px;"></i> Receitas
+                </h:link>
+                <h:link outcome="/pages/despesas.xhtml" styleClass="nav-link">
+                    <i class="pi pi-minus-circle" style="margin-right: 5px;"></i> Despesas
+                </h:link>
+                <h:link outcome="/pages/parceladas.xhtml" styleClass="nav-link">
+                    <i class="pi pi-credit-card" style="margin-right: 5px;"></i> Parceladas
+                </h:link>
+                <h:link outcome="/pages/alerta.xhtml" styleClass="nav-link">
+                    <i class="pi pi-bell" style="margin-right: 5px;"></i> Alertas
+                </h:link>
+            </div>
+        </div>
+
+        <h:panelGroup rendered="#{not empty loginBean.usuario}" styleClass="topbar-right">
+            <h:outputText value="👋 Bem-vindo(a), #{loginBean.usuario.nome}" styleClass="usuario-logado"/>
+
+            <h:form style="display:inline;">
+                <p:commandButton value="Sair" icon="pi pi-sign-out"
+                                 action="#{loginBean.logout}"
+                                 styleClass="ui-button-flat ui-button-secondary"
+                                 style="border: 1px solid #2563eb; color: #2563eb;" />
+            </h:form>
+        </h:panelGroup>
+
+    </div>
+
+    <!-- Conteúdo -->
+    <div class="main-content">
+        <ui:insert name="content"/>
+    </div>
+
+</h:body>
+</html>

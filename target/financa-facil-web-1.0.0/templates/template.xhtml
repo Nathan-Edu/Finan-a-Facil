@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title><ui:insert name="title">Finança Fácil</ui:insert></title>
+    <meta charset="UTF-8"/>
+    <style>
+        body {
+          margin: 0;
+          font-family: "Segoe UI", sans-serif;
+          background-color: #f9fafb;
+        }
+        .main-content {
+          max-width: 1200px;
+          margin: 2rem auto;
+          padding: 0 1rem;
+        }
+    </style>
+</h:head>
+
+<h:body>
+    <p:menubar style="background-color: white; border-bottom:1px solid #e5e7eb;">
+        <p:menuitem value="Finança Fácil"
+                    icon="pi pi-home"
+                    outcome="/pages/dashboard.xhtml"
+                    style="font-size:1.2rem;font-weight:bold;color:#2563eb" />
+
+        <p:submenu label="Navegação" icon="pi pi-bars">
+            <p:menuitem value="Dashboard" icon="pi pi-chart-line" outcome="/pages/dashboard.xhtml" />
+            <p:menuitem value="Receitas"   icon="pi pi-wallet"      outcome="/pages/receitas.xhtml" />
+            <p:menuitem value="Despesas"   icon="pi pi-minus-circle" outcome="/pages/despesas.xhtml" />
+            <p:menuitem value="Parceladas" icon="pi pi-credit-card"  outcome="/pages/parceladas.xhtml" />
+            <p:menuitem value="Alertas"    icon="pi pi-bell"         outcome="/pages/alerta.xhtml" />
+        </p:submenu>
+
+        <f:facet name="options">
+            <h:outputText value="👋 Bem-vindo(a), #{usuarioBean.nome}" style="margin-right:1rem;"/>
+            <p:commandButton icon="pi pi-sign-out"
+                             value="Sair"
+                             action="#{usuarioBean.logout}"
+                             styleClass="ui-button-flat ui-button-warning"
+                             style="border:1px solid #2563eb; color:#2563eb"/>
+        </f:facet>
+    </p:menubar>
+
+    <div class="main-content">
+        <ui:insert name="content"/>
+    </div>
+</h:body>
+</html>

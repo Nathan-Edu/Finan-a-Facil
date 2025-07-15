@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="jakarta.faces.core"
+                xmlns:ui="jakarta.faces.facelets"
+                template="/templates/template.xhtml">
+
+    <ui:define name="titulo">Receitas</ui:define>
+
+    <ui:define name="conteudo">
+        <p:card>
+            <f:facet name="title">
+                Minhas Receitas 💰
+            </f:facet>
+
+            <p:dataTable var="receita" value="#{receitaBean.receitas}" rows="5" paginator="true"
+                         responsiveLayout="scroll" styleClass="tabela-receitas">
+
+                <p:column headerText="Descrição">
+                    <h:outputText value="#{receita.descricao}" />
+                </p:column>
+
+                <p:column headerText="Valor (R$)" style="text-align: right">
+                    <h:outputText value="#{receita.valor}">
+                        <f:convertNumber type="currency" currencySymbol="R$" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Data">
+                    <h:outputText value="#{receita.data}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Categoria">
+                    <h:outputText value="#{receita.categoria}" />
+                </p:column>
+            </p:dataTable>
+        </p:card>
+    </ui:define>
+</ui:composition>

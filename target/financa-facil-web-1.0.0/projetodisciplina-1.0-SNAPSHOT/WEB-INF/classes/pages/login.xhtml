@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Login • FinançaFácil</title>
+    <h:outputStylesheet name="login.css"/>
+</h:head>
+
+<h:body styleClass="login-body">
+
+    <h:form prependId="false" styleClass="login-form">
+
+        <p:messages autoUpdate="true" closable="true" />
+
+        <p:panel header="Bem-vindo ao FinançaFácil 👋" styleClass="login-panel">
+
+            <p:inputText id="usuario" value="#{loginBean.usuario}" required="true"
+                         placeholder="Usuário" styleClass="login-input" />
+
+            <p:password id="senha" value="#{loginBean.senha}" required="true"
+                        placeholder="Senha" styleClass="login-input" />
+
+            <p:commandButton value="Entrar" icon="pi pi-sign-in"
+                             action="#{loginBean.login}" update="@form"
+                             styleClass="ui-button-success login-button" />
+
+        </p:panel>
+
+    </h:form>
+
+</h:body>
+</html>

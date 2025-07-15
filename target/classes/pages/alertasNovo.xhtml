@@ -1,0 +1,83 @@
+<ui:composition template="/templates/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">Novo Alerta</ui:define>
+
+    <ui:define name="content">
+        <h:form style="max-width: 720px; margin: 2rem auto; background-color: #fff; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+
+            <!-- Voltar -->
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                <i class="pi pi-arrow-left" style="font-size: 1.2rem; color: #f97316;"></i>
+                <h:link outcome="/pages/alertas.xhtml"
+                        style="font-weight: bold; font-size: 1rem; color: #f97316; text-decoration: none;">
+                    Voltar
+                </h:link>
+            </div>
+
+            <!-- Título -->
+            <h1 style="font-size: 2rem; font-weight: bold; color: #111827;">Adicionar Alerta</h1>
+            <p style="color: #6b7280; margin-bottom: 2rem;">Configure um novo alerta financeiro</p>
+
+            <h2 style="font-size: 1.3rem; font-weight: bold; color: #111827; margin-bottom: 1.5rem;">Novo Alerta</h2>
+
+            <div class="p-fluid">
+
+                <!-- Mensagem -->
+                <div class="p-field" style="margin-bottom: 1rem;">
+                    <p:outputLabel for="mensagem" value="Mensagem do Alerta" />
+                    <p:inputText id="mensagem"
+                                 value="#{cadastroAlertaBean.alerta.mensagem}"
+                                 placeholder="Ex: Parcela vence em breve"
+                                 required="true"
+                                 style="width: 100%;" />
+                </div>
+
+                <!-- Data Alerta -->
+                <div class="p-field" style="margin-bottom: 1rem;">
+                    <p:outputLabel for="data" value="Data do Alerta" />
+                    <p:datePicker id="data"
+                                  value="#{cadastroAlertaBean.alerta.dataAlerta}"
+                                  pattern="dd/MM/yyyy"
+                                  required="true"
+                                  showIcon="true"
+                                  style="width: 100%;" />
+                </div>
+
+                <!-- Prioridade -->
+                <div class="p-field" style="margin-bottom: 2rem;">
+                    <p:outputLabel for="prioridade" value="Prioridade" />
+                    <p:selectOneMenu id="prioridade"
+                                     value="#{cadastroAlertaBean.alerta.prioridade}"
+                                     required="true"
+                                     style="width: 100%;">
+                        <f:selectItem itemLabel="Selecione" itemValue="" noSelectionOption="true" />
+                        <f:selectItem itemLabel="Alta" itemValue="high" />
+                        <f:selectItem itemLabel="Normal" itemValue="normal" />
+                    </p:selectOneMenu>
+                </div>
+
+                <!-- Botões -->
+                <div class="p-field" style="display: flex; gap: 1rem;">
+                    <p:commandButton value="Criar Alerta"
+                                     icon="pi pi-save"
+                                     action="#{cadastroAlertaBean.salvar}"
+                                     update="@form"
+                                     styleClass="ui-button-secondary"
+                                     style="background-color: #f97316; border: none; padding: 0.6rem 1.2rem; font-size: 0.95rem;" />
+
+                    <p:linkButton value="Cancelar"
+                                  icon="pi pi-times"
+                                  outcome="/pages/alertas.xhtml"
+                                  styleClass="ui-button-secondary"
+                                  style="padding: 0.6rem 1.2rem; font-size: 0.95rem;" />
+                </div>
+
+            </div>
+        </h:form>
+    </ui:define>
+</ui:composition>

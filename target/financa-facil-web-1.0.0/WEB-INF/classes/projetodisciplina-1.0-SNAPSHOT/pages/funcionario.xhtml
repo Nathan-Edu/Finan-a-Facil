@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://xmlns.jcp.org/jsf/core ">
+
+<h:head>
+    <title>Funcionários Cadastrados</title>
+</h:head>
+<h:body>
+    <h:form id="formMenu">
+        <p:megaMenu orientation="horizontal">
+            <p:menuitem value="Início" url="#{request.contextPath}/pages/index.xhtml"/>
+            <p:menuitem value="Funcionários" url="#{request.contextPath}/pages/funcionario.xhtml"/>
+            <p:menuitem value="Cargos" url="#{request.contextPath}/pages/cargo.xhtml"/>
+            <f:facet name="end">
+                <div class="ui-input-icon-left mr-2">
+                    <i class="pi pi-fw pi-search"/>
+                    <p:inputText placeholder="Pesquisa"/>
+                </div>
+            </f:facet>
+        </p:megaMenu>
+
+    </h:form>
+    <h:form id="formListagem">
+        <p:panel header="Funcionários">
+            <p:dataTable id="tabelaFuncionarios" value="#{funcionarioBean.funcionarios}" var="funcionario">
+                <p:column headerText="Nome">
+                    <h:outputText value="#{funcionario.nome}"/>
+                </p:column>
+                <p:column headerText="CPF">
+                    <h:outputText value="#{funcionario.cpf}"/>
+                </p:column>
+                <p:column headerText="Opções">
+                    <p:commandButton icon="pi pi-pencil" title="Editar"
+                                     styleClass="rounded-button ui-button-help ui-button-outlined"></p:commandButton>
+                    <p:commandButton icon="pi pi-trash" title="Apagar"
+                                     styleClass="rounded-button ui-button-danger ui-button-outlined"></p:commandButton>
+                </p:column>
+            </p:dataTable>
+        </p:panel>
+    </h:form>
+
+</h:body>
+</html>

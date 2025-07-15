@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Finança Fácil - Login</title>
+    <meta charset="UTF-8"/>
+    <style>
+        body {
+            margin: 0;
+            font-family: "Segoe UI", sans-serif;
+            background: linear-gradient(135deg, #e0f7ff, #ffffff, #dcfce7);
+        }
+
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .login-card {
+            max-width: 420px;
+            width: 100%;
+            background-color: white;
+            border-radius: 10px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
+
+        .titulo {
+            font-size: 2rem;
+            color: #2563eb;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitulo {
+            text-align: center;
+            color: #6b7280;
+            margin-bottom: 2rem;
+        }
+
+        .input-alto {
+            width: 100%;
+            height: 3em;
+            font-size: 1.1em;
+        }
+
+        .erro-msg {
+            color: #b91c1c;
+            background-color: #fee2e2;
+            border: 1px solid #fca5a5;
+            padding: 0.8rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .teste-info {
+            text-align: center;
+            margin-top: 3rem;
+            font-size: 0.85rem;
+            color: gray;
+        }
+
+        .form-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+    </style>
+</h:head>
+
+<h:body>
+    <h:form styleClass="login-container">
+        <div class="login-card">
+
+            <h1 class="titulo">Finança Fácil</h1>
+            <div class="subtitulo">Entre na sua conta</div>
+
+            <div class="form-grid">
+                <h:outputLabel for="email" value="Email" />
+                <p:inputText id="email" value="#{loginBean.email}" required="true"
+                             placeholder="seu@email.com"
+                             styleClass="input-alto" />
+
+                <h:outputLabel for="senha" value="Senha" />
+                <p:password id="senha" value="#{loginBean.senha}" feedback="false"
+                            toggleMask="true" redisplay="true"
+                            placeholder="Sua senha" styleClass="input-alto" />
+
+                <h:panelGroup rendered="#{not empty loginBean.erro}">
+                    <div class="erro-msg">
+                        <h:outputText value="#{loginBean.erro}" />
+                    </div>
+                </h:panelGroup>
+
+                <p:commandButton value="Entrar"
+                                 icon="pi pi-sign-in"
+                                 action="#{loginBean.logar}"
+                                 update="@form"
+                                 styleClass="ui-button-success"
+                                 style="width: 100%; margin-top: 0.5rem;" />
+
+                <p:separator/>
+
+                <div style="text-align: center;">
+                    <h:outputText value="Não tem uma conta?" />
+                    <br/>
+                    <h:link value="Cadastre-se aqui" outcome="/pages/cadastro.xhtml" style="color: #2563eb;" />
+                </div>
+            </div>
+
+        </div>
+    </h:form>
+</h:body>
+</html>

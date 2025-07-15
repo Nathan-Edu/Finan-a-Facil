@@ -1,0 +1,125 @@
+<ui:composition template="/templates/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <!-- Captura o ID da despesa e executa init() -->
+    <f:metadata>
+        <f:viewParam name="id" value="#{despesasNovaBean.id}" />
+        <f:event type="preRenderView" listener="#{despesasNovaBean.init}" />
+    </f:metadata>
+
+    <ui:define name="title">Nova Despesa</ui:define>
+
+    <ui:define name="content">
+        <h:form style="max-width: 720px; margin: 2rem auto; background-color: #fff; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+
+            <!-- Voltar -->
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                <i class="pi pi-arrow-left" style="font-size: 1.2rem; color: #dc2626;"></i>
+                <h:link outcome="/pages/despesas.xhtml" style="font-weight: bold; font-size: 1rem; color: #dc2626; text-decoration: none;">
+                    Voltar
+                </h:link>
+            </div>
+
+            <!-- Título -->
+            <h1 style="font-size: 2rem; font-weight: bold; color: #111827;">
+                #{despesasNovaBean.id == null ? 'Adicionar Despesa' : 'Editar Despesa'}
+            </h1>
+            <p style="color: #6b7280; margin-bottom: 2rem;">
+                #{despesasNovaBean.id == null ? 'Cadastre uma nova despesa' : 'Atualize os dados da despesa'}
+            </p>
+
+            <!-- Card da Despesa -->
+            <h2 style="font-size: 1.3rem; font-weight: bold; color: #111827; margin-bottom: 1.5rem;">
+                #{despesasNovaBean.id == null ? 'Nova Despesa' : 'Alterar Despesa'}
+            </h2>
+
+            <p:messages id="msgs" showDetail="true" autoUpdate="true" closable="true"/>
+
+            <div class="p-fluid">
+
+                <!-- Descrição -->
+                <div class="p-field" style="margin-bottom: 1rem;">
+                    <p:outputLabel for="descricao" value="Descrição *" />
+                    <p:inputText id="descricao"
+                                 value="#{despesasNovaBean.descricao}"
+                                 required="true"
+                                 placeholder="Ex: Conta de luz"
+                                 style="width: 100%;" />
+                </div>
+
+                <!-- Categoria -->
+                <div class="p-field" style="margin-bottom: 1rem;">
+                    <p:outputLabel for="categoria" value="Categoria *" />
+                    <p:selectOneMenu id="categoria"
+                                     value="#{despesasNovaBean.categoria}"
+                                     required="true"
+                                     style="width: 100%;">
+                        <f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true"/>
+                        <f:selectItem itemLabel="Moradia" itemValue="MORADIA"/>
+                        <f:selectItem itemLabel="Alimentação" itemValue="ALIMENTACAO"/>
+                        <f:selectItem itemLabel="Transporte" itemValue="TRANSPORTE"/>
+                        <f:selectItem itemLabel="Educação" itemValue="EDUCACAO"/>
+                        <f:selectItem itemLabel="Saúde" itemValue="SAUDE"/>
+                        <f:selectItem itemLabel="Lazer" itemValue="LAZER"/>
+                        <f:selectItem itemLabel="Outros" itemValue="OUTROS"/>
+                    </p:selectOneMenu>
+                </div>
+
+                <!-- Valor e Data (lado a lado) -->
+                <div class="p-field" style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
+                    <!-- Valor -->
+                    <div style="flex: 1;">
+                        <label for="valor" style="font-weight: 400; font-size: 0.95rem; display: block; margin-bottom: 0.3rem;">Valor (R$) *</label>
+                        <p:inputNumber id="valor"
+                                       value="#{despesasNovaBean.valor}"
+                                       symbol="R$"
+                                       symbolPosition="p"
+                                       required="true"
+                                       decimalPlaces="2"
+                                       placeholder="0,00"
+                                       style="width: 100%; height: 42px; padding-left: 0.2rem; font-size: 1rem; box-sizing: border-box;" />
+                    </div>
+
+                    <!-- Data -->
+                    <div style="flex: 1;">
+                        <label for="data" style="font-weight: 400; font-size: 0.95rem; display: block; margin-bottom: 0.3rem;">Data *</label>
+                        <p:datePicker id="data"
+                                      value="#{despesasNovaBean.data}"
+                                      pattern="dd/MM/yyyy"
+                                      required="true"
+                                      showIcon="true"
+                                      style="width: 100%; font-size: 0.95rem;"
+                                      inputStyle="height: 38px; padding-left: 0.7rem;" />
+                    </div>
+                </div>
+
+                <!-- Checkbox visual -->
+                <div class="p-field-checkbox" style="margin-bottom: 2rem;">
+                    <p:selectBooleanCheckbox id="fixa" value="#{despesasNovaBean.despesaFixa}" disabled="true" />
+                    <label for="fixa">Despesa fixa</label>
+                </div>
+
+                <!-- Botões -->
+                <div class="p-field" style="display: flex; gap: 1rem;">
+                    <p:commandButton value="#{despesasNovaBean.id == null ? 'Salvar Despesa' : 'Atualizar Despesa'}"
+                                     action="#{despesasNovaBean.salvar}"
+                                     icon="pi pi-save"
+                                     update="@form"
+                                     styleClass="ui-button-danger"
+                                     style="padding: 0.6rem 1.0rem; font-size: 0.95rem;" />
+
+                    <p:button value="Cancelar"
+                              outcome="/pages/despesas.xhtml"
+                              icon="pi pi-times"
+                              styleClass="ui-button-secondary"
+                              style="padding: 0.6rem 1.0rem; font-size: 0.95rem;" />
+                </div>
+
+            </div>
+        </h:form>
+    </ui:define>
+</ui:composition>

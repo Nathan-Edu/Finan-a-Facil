@@ -1,0 +1,133 @@
+<ui:composition template="/templates/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">Receitas</ui:define>
+    <ui:define name="content">
+
+        <h:form styleClass="page-container">
+
+            <style>
+                .page-container { padding: 2rem; }
+                .header-bar {
+                  display: flex;
+                  align-items: center;
+                  gap: 1rem;
+                  margin-bottom: 2rem;
+                }
+                .titulo {
+                  font-size: 2rem;
+                  font-weight: bold;
+                  color: #1f2937;
+                  margin: 0;
+                }
+                .subtitulo {
+                  font-size: 0.9rem;
+                  color: #6b7280;
+                  margin: 0.25rem 0 0;
+                }
+
+                .grid-cards { display: grid; gap: 1rem; }
+                @media (min-width: 768px) {
+                  .grid-3 { grid-template-columns: repeat(3, 1fr); }
+                }
+
+                .receita-verde {
+                  color: #16a34a;
+                  font-weight: bold;
+                  font-size: 1.5rem;
+                }
+                .borda-receita {
+                  border: 1px solid #e5e7eb;
+                  padding: 1rem;
+                  border-radius: 8px;
+                  margin-bottom: 1rem;
+                }
+            </style>
+
+            <style>
+                .header-bar {
+                  display: flex;
+                  align-items: center;
+                  justify-content: space-between; /* espaço máximo entre título e botão */
+                  gap: 1rem;
+                  margin-bottom: 2rem;
+                }
+            </style>
+
+            <!-- Header com botão no canto direito -->
+            <div class="header-bar">
+                <div>
+                    <h2 class="titulo">Receitas</h2>
+                    <p class="subtitulo">Gerencie suas fontes de renda</p>
+                </div>
+
+                <!-- Botão agora fica no extremo direito -->
+                <p:commandButton value="Nova Receita"
+                                 icon="pi pi-plus"
+                                 styleClass="ui-button-success"
+                                 action="/pages/receitasNova.xhtml?faces-redirect=true"
+                                 style="height:2.5rem;"/>
+            </div>
+
+            <!-- Resumo -->
+            <div class="grid-cards grid-3" style="margin-bottom: 2rem;">
+                <p:panel header="Total de Receitas">
+                    <h:outputText value="R$ #{receitasBean.totalFormatado}"
+                                  styleClass="receita-verde" />
+                </p:panel>
+                <p:panel header="Receitas este Mês">
+                    <h:outputText value="R$ #{receitasBean.totalMesAtualFormatado}"
+                                  style="font-size:1.5rem;" />
+                </p:panel>
+                <p:panel header="Fontes de Renda">
+                    <h:outputText value="#{receitasBean.qtdFontes}"
+                                  style="font-size:1.5rem;font-weight:bold" />
+                </p:panel>
+            </div>
+
+            <!-- Filtro (sem alterações adicionais) -->
+            <p:panel header="Filtrar Receitas" style="margin-bottom: 2rem;">
+                <h:panelGroup layout="block" styleClass="filtro-container">
+                    <p:inputText value="#{receitasBean.filtroDescricao}"
+                                 placeholder="Buscar por descrição..."
+                                 style="flex: 1; height:2.5rem; padding:0 1rem;" />
+                    <p:commandButton value="Buscar"
+                                     icon="pi pi-search"
+                                     update="@form"
+                                     action="#{receitasBean.filtrar}"
+                                     style="height:2.5rem;" />
+                </h:panelGroup>
+            </p:panel>
+
+            <!-- Lista de Receitas -->
+            <p:panel header="Suas Receitas">
+                <ui:repeat var="r" value="#{receitasBean.lista}">
+                    <div class="borda-receita">
+                        <h:panelGrid columns="2" columnClasses="left,right">
+                            <h:panelGroup>
+                                <h:outputText value="#{r.descricao}"
+                                              style="font-weight:bold" /><br/>
+                                <h:outputText value="#{r.categoria} • #{r.data}"
+                                              styleClass="subtitulo" />
+                            </h:panelGroup>
+                            <h:panelGroup style="text-align:right">
+                                <h:outputText value="+ R$ #{r.valorFormatado}"
+                                              styleClass="receita-verde" /><br/>
+                                <p:commandButton icon="pi pi-pencil"
+                                                 styleClass="ui-button-sm ui-button-outlined"/>
+                                <p:spacer width="5"/>
+                                <p:commandButton icon="pi pi-trash"
+                                                 styleClass="ui-button-sm ui-button-danger"/>
+                            </h:panelGroup>
+                        </h:panelGrid>
+                    </div>
+                </ui:repeat>
+            </p:panel>
+
+        </h:form>
+    </ui:define>
+</ui:composition>

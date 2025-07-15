@@ -1,0 +1,59 @@
+<ui:composition template="/templates/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">Dashboard</ui:define>
+
+    <ui:define name="content">
+        <h:form styleClass="dashboard-container">
+
+            <style>
+                .dashboard-container { padding: 2rem; }
+                .header-bar {
+                  display: flex;
+                  flex-wrap: wrap;
+                  align-items: center;
+                  gap: 1rem;
+                  margin-bottom: 2rem;
+                }
+                .header-bar .titulo {
+                  font-size: 2rem;
+                  font-weight: bold;
+                  color: #1f2937;
+                  margin: 0;
+                }
+                .header-bar .subtitulo {
+                  font-size: 1rem;
+                  color: #6b7280;
+                  margin: 0;
+                }
+            </style>
+
+            <div class="header-bar">
+                <h:outputText value="Bem-vindo(a) ao Finança Fácil!" styleClass="titulo"/>
+                <h:outputText value="Veja um resumo das suas finanças." styleClass="subtitulo"/>
+            </div>
+
+            <h2>Despesas Recentes</h2>
+            <p:dataTable value="#{dashboardBean.despesas}" var="d" rows="5" paginator="true" rowsPerPageTemplate="5,10,15">
+                <p:column headerText="Descrição">
+                    <h:outputText value="#{d.descricao}" />
+                </p:column>
+                <p:column headerText="Valor">
+                    <h:outputText value="#{d.valor}" />
+                </p:column>
+                <p:column headerText="Categoria">
+                    <h:outputText value="#{d.categoria}" />
+                </p:column>
+                <p:column headerText="Data">
+                    <h:outputText value="#{d.data}" />
+                </p:column>
+            </p:dataTable>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

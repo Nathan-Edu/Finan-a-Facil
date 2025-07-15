@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Finança Fácil - Cadastro</title>
+    <meta charset="UTF-8"/>
+    <style>
+        body {
+            margin: 0;
+            font-family: "Segoe UI", sans-serif;
+            background: linear-gradient(135deg, #e0f7ff, #ffffff, #dcfce7);
+        }
+
+        .cadastro-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .cadastro-card {
+            max-width: 420px;
+            width: 100%;
+            background-color: white;
+            border-radius: 10px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
+
+        .titulo {
+            font-size: 2rem;
+            color: #22c55e;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitulo {
+            text-align: center;
+            color: #6b7280;
+            margin-bottom: 2rem;
+        }
+
+        .input-alto {
+            width: 100%;
+            height: 3em;
+            font-size: 1.1em;
+            padding: 0.5em;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        .erro-msg {
+            color: #b91c1c;
+            background-color: #fee2e2;
+            border: 1px solid #fca5a5;
+            padding: 0.8rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .form-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+    </style>
+</h:head>
+
+<h:body>
+    <h:form styleClass="cadastro-container">
+        <div class="cadastro-card">
+
+            <h1 class="titulo">Criar Conta</h1>
+            <div class="subtitulo">Preencha os campos abaixo para se cadastrar</div>
+
+            <div class="form-grid">
+                <h:outputLabel for="nome" value="Nome *" />
+                <p:inputText id="nome" value="#{cadastroBean.nome}" styleClass="input-alto" />
+
+                <h:outputLabel for="email" value="Email *" />
+                <p:inputText id="email" value="#{cadastroBean.email}" styleClass="input-alto" />
+
+                <h:outputLabel for="senha" value="Senha *" />
+                <p:password id="senha" value="#{cadastroBean.senha}" feedback="false"
+                            toggleMask="true" redisplay="true"
+                            styleClass="input-alto" />
+
+                <h:outputLabel for="confirmarSenha" value="Confirmar Senha *" />
+                <p:password id="confirmarSenha" value="#{cadastroBean.confirmarSenha}" feedback="false"
+                            toggleMask="true" redisplay="true"
+                            styleClass="input-alto" />
+
+                <h:panelGroup rendered="#{not empty cadastroBean.erro}">
+                    <div class="erro-msg">
+                        <h:outputText value="#{cadastroBean.erro}" />
+                    </div>
+                </h:panelGroup>
+
+                <p:commandButton value="Cadastrar"
+                                 icon="pi pi-user-plus"
+                                 action="#{cadastroBean.registrar}"
+                                 update="@form"
+                                 styleClass="ui-button-success"
+                                 style="width: 100%; margin-top: 0.5rem;" />
+
+                <div style="text-align:center; margin-top:1rem;">
+                    <h:outputText value="Já tem uma conta?" />
+                    <br/>
+                    <h:link value="Voltar para login" outcome="/pages/login.xhtml" style="color:#2563eb;" />
+                </div>
+            </div>
+
+        </div>
+    </h:form>
+</h:body>
+</html>

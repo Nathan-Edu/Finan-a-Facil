@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title><ui:insert name="titulo">FinançaFácil</ui:insert></title>
+</h:head>
+
+<h:body style="margin: 0; font-family: 'Segoe UI', sans-serif;">
+    <!-- ✅ Menu fixo no topo -->
+    <h:form>
+        <p:megaMenu orientation="horizontal" style="border-radius: 0; border: none;">
+            <p:menuitem value="Início" url="#{request.contextPath}/pages/index.xhtml" icon="pi pi-home"/>
+            <p:menuitem value="Receitas" url="#{request.contextPath}/pages/receita.xhtml" icon="pi pi-wallet"/>
+            <p:menuitem value="Despesas" url="#{request.contextPath}/pages/despesa.xhtml" icon="pi pi-money-bill"/>
+            <p:menuitem value="Parceladas" url="#{request.contextPath}/pages/conta-parcelada.xhtml" icon="pi pi-credit-card"/>
+
+            <f:facet name="end">
+                <div class="ui-input-icon-left mr-2" style="padding-right: 1rem;">
+                    <i class="pi pi-fw pi-search" />
+                    <p:inputText placeholder="Buscar" style="width: 10rem;"/>
+                </div>
+            </f:facet>
+        </p:megaMenu>
+    </h:form>
+
+    <!-- ✅ Conteúdo dinâmico -->
+    <div class="conteudo" style="padding: 2rem;">
+        <p:growl id="msgs" showDetail="true" />
+        <ui:insert name="conteudo"/>
+    </div>
+
+    <!-- ✅ Rodapé opcional -->
+    <footer style="background-color: #f5f5f5; padding: 1rem; text-align: center; font-size: 0.9rem; color: #666;">
+        © 2025 FinançaFácil — Gerencie suas finanças com inteligência 💰
+    </footer>
+</h:body>
+</html>

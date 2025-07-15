@@ -1,0 +1,174 @@
+<ui:composition template="/templates/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">Alertas</ui:define>
+    <ui:define name="content">
+
+        <h:form styleClass="page-container">
+            <style>
+                .page-container { padding: 2rem; }
+
+                .titulo {
+                    font-size: 2rem;
+                    font-weight: bold;
+                    color: #ea580c; /* Laranja */
+                    margin: 0;
+                }
+
+                .subtitulo {
+                    font-size: 0.9rem;
+                    color: #6b7280;
+                    margin: 0.25rem 0 2rem;
+                }
+
+                .header-bar {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    gap: 1rem;
+                    margin-bottom: 2rem;
+                }
+
+                .summary-grid {
+                    display: grid;
+                    gap: 1rem;
+                    margin-bottom: 2rem;
+                }
+
+                @media(min-width: 768px) {
+                    .summary-grid {
+                        grid-template-columns: repeat(4, 1fr);
+                    }
+                }
+
+                .resumo-card {
+                    border: 1px solid #e5e7eb;
+                    border-radius: 10px;
+                    padding: 1rem 1.25rem;
+                    background-color: #fff;
+                }
+
+                .resumo-card h4 {
+                    margin: 0;
+                    font-weight: normal;
+                    font-size: 0.95rem;
+                    color: #6b7280;
+                }
+
+                .resumo-card .valor {
+                    font-size: 1.4rem;
+                    font-weight: bold;
+                    margin-top: 0.4rem;
+                    color: #1f2937;
+                }
+
+                .resumo-card .valor.red {
+                    color: #dc2626;
+                }
+
+                .resumo-card .valor.green {
+                    color: #16a34a;
+                }
+
+                .painel-card {
+                    background-color: #ffffff;
+                    border-radius: 14px;
+                    border: 1px solid #e5e7eb;
+                    padding: 1.25rem;
+                }
+
+                .list-item {
+                    margin-bottom: 1rem;
+                    padding: 1rem;
+                    border: 1px solid #e5e7eb;
+                    border-radius: 8px;
+                    background-color: #f9fafb;
+                }
+
+                .left { text-align: left; }
+                .right { text-align: right; }
+
+            </style>
+
+            <!-- Cabeçalho -->
+            <div class="header-bar">
+                <div>
+                    <h2 class="titulo">Alertas</h2>
+                    <p class="subtitulo">Fique por dentro das suas finanças</p>
+                </div>
+                <p:button icon="pi pi-plus"
+                          value="Adicionar Alerta"
+                          outcome="/pages/alertasNovo.xhtml"
+                          styleClass="ui-button-primary"
+                          style="background-color: #f97316; border: none; height: 2.5rem; padding: 0 1rem; color: white;" />
+
+            </div>
+
+            <!-- Resumo -->
+            <div class="summary-grid">
+                <div class="resumo-card">
+                    <h4>Não Visualizados</h4>
+                    <div class="valor red">#{alertaBean.qtdNaoVisualizados}</div>
+                </div>
+                <div class="resumo-card">
+                    <h4>Total de Alertas</h4>
+                    <div class="valor">#{alertaBean.total}</div>
+                </div>
+                <div class="resumo-card">
+                    <h4>Alta Prioridade</h4>
+                    <div class="valor red">#{alertaBean.qtdAltaPrioridade}</div>
+                </div>
+                <div class="resumo-card">
+                    <h4>Visualizados</h4>
+                    <div class="valor green">#{alertaBean.qtdVisualizados}</div>
+                </div>
+            </div>
+
+            <!-- Mensagem -->
+            <p:outputPanel rendered="#{alertaBean.qtdNaoVisualizados > 0}">
+                <h:outputText value="Você tem #{alertaBean.qtdNaoVisualizados} alerta(s) não visualizado(s)!"
+                              style="color: #b91c1c; font-weight: bold; margin-bottom: 1rem; display: block;" />
+            </p:outputPanel>
+
+            <!-- Lista de Alertas -->
+            <div class="painel-card">
+                <h4 style="margin-bottom: 1rem; font-weight: normal;">Todos os Alertas</h4>
+                <ui:repeat var="a" value="#{alertaBean.lista}" rendered="#{not empty alertaBean.lista}">
+                    <div class="list-item">
+                        <h:panelGrid columns="2" columnClasses="left,right" width="100%">
+                            <h:panelGroup>
+                                <h:outputText value="#{a.mensagem}" style="font-weight:bold;" /><br/>
+                                <small>#{a.dataFormatada}</small><br/>
+                                <p:badge value="#{a.prioridade}"
+                                         severity="#{a.prioridade eq 'high' ? 'danger' : 'info'}" />
+                                <p:badge value="Novo"
+                                         rendered="#{!a.visualizado}"
+                                         severity="danger" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:commandButton icon="pi pi-check"
+                                                 title="Marcar como Lido"
+                                                 rendered="#{!a.visualizado}"
+                                                 action="#{alertaBean.marcarComoLido(a.id)}"
+                                                 update="@form"
+                                                 styleClass="ui-button-outlined ui-button-sm ui-button-success" />
+                                <p:spacer width="5" />
+                                <p:commandButton icon="pi pi-times"
+                                                 title="Descartar"
+                                                 action="#{alertaBean.descartar(a.id)}"
+                                                 update="@form"
+                                                 styleClass="ui-button-outlined ui-button-sm ui-button-secondary" />
+                            </h:panelGroup>
+                        </h:panelGrid>
+                    </div>
+                </ui:repeat>
+            </div>
+
+        </h:form>
+
+    </ui:define>
+</ui:composition>

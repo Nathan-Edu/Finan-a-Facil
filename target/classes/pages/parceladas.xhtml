@@ -1,0 +1,185 @@
+<ui:composition template="/templates/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">Contas Parceladas</ui:define>
+    <ui:define name="content">
+
+        <h:form styleClass="page-container">
+            <style>
+                .page-container { padding: 2rem; }
+
+                .titulo {
+                    font-size: 2rem;
+                    font-weight: bold;
+                    color: #6b21a8;
+                    margin: 0;
+                }
+
+                .subtitulo {
+                    font-size: 0.9rem;
+                    color: #6b7280;
+                    margin: 0.25rem 0 2rem;
+                }
+
+                .header-bar {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    gap: 1rem;
+                    margin-bottom: 2rem;
+                }
+
+                .summary-grid {
+                    display: grid;
+                    gap: 1rem;
+                    margin-bottom: 2rem;
+                }
+
+                @media(min-width: 768px) {
+                    .summary-grid {
+                        grid-template-columns: repeat(4,1fr);
+                    }
+                }
+
+                .resumo-card {
+                    border: 1px solid #e5e7eb;
+                    border-radius: 10px;
+                    padding: 1rem 1.25rem;
+                    background-color: #fff;
+                }
+
+                .resumo-card h4 {
+                    margin: 0;
+                    font-weight: normal;
+                    font-size: 0.95rem;
+                    color: #6b7280;
+                }
+
+                .resumo-card .valor {
+                    font-size: 1.4rem;
+                    font-weight: bold;
+                    margin-top: 0.4rem;
+                    color: #1f2937;
+                }
+
+                .resumo-card .valor.negativo {
+                    color: #dc2626;
+                }
+
+                .painel-card {
+                    background-color: #ffffff;
+                    border-radius: 14px;
+                    border: 1px solid #e5e7eb;
+                    padding: 1.25rem;
+                }
+
+                .list-item {
+                    margin-bottom: 1rem;
+                    padding: 1rem;
+                    border: 1px solid #e5e7eb;
+                    border-radius: 8px;
+                    background-color: #fff;
+                }
+
+                .list-item h4 {
+                    font-weight: normal;
+                    margin-bottom: 0.25rem;
+                }
+
+                .left { text-align: left; }
+                .right { text-align: right; }
+            </style>
+
+            <!-- Cabeçalho -->
+            <div class="header-bar">
+                <div>
+                    <h2 class="titulo">Contas Parceladas</h2>
+                    <p class="subtitulo">Controle suas compras parceladas</p>
+                </div>
+                <p:button value="Nova Conta Parcelada"
+                          icon="pi pi-plus"
+                          styleClass="ui-button-primary"
+                          outcome="/pages/contasParceladasNova.xhtml"
+                          style="background-color: #8b5cf6; border: none; height: 2.5rem; padding: 0 1rem; color: white;" />
+            </div>
+
+            <!-- Resumo -->
+            <div class="summary-grid">
+                <div class="resumo-card">
+                    <h4>Total em Aberto</h4>
+                    <div class="valor negativo">R$ #{parceladaBean.totalDevedorFormatado}</div>
+                </div>
+                <div class="resumo-card">
+                    <h4>Contas Ativas</h4>
+                    <div class="valor">#{parceladaBean.qtdAtivas}</div>
+                </div>
+                <div class="resumo-card">
+                    <h4>Contas Finalizadas</h4>
+                    <div class="valor">#{parceladaBean.qtdFinalizadas}</div>
+                </div>
+                <div class="resumo-card">
+                    <h4>Próx. Vencimento</h4>
+                    <div class="valor" style="font-size: 1rem;">#{parceladaBean.proximoVencimentoFormatado}</div>
+                </div>
+            </div>
+
+            <!-- Lista de Contas Parceladas -->
+            <div class="painel-card">
+                <h4 style="margin-bottom: 1rem; font-weight: normal;">Suas Contas Parceladas</h4>
+                <ui:repeat var="c" value="#{parceladaBean.lista}">
+                    <div class="list-item">
+                        <!-- Cabeçalho -->
+                        <h:panelGrid columns="2" columnClasses="left,right" width="100%">
+                            <h:panelGroup>
+                                <h:outputText value="Conta: #{c.descricao}" />
+                                <p:badge value="#{c.status}"
+                                         severity="#{c.status eq 'ativa' ? 'warning' : 'success'}"
+                                         style="margin-left: 0.5rem;" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:commandButton icon="pi pi-trash"
+                                                 title="Excluir Parcelas"
+                                                 styleClass="ui-button-outlined ui-button-sm ui-button-danger"
+                                                 action="#{parceladaBean.excluirParcelas(c.id)}" />
+                                <p:spacer width="5" />
+                                <p:commandButton icon="pi pi-pencil"
+                                                 title="Editar"
+                                                 styleClass="ui-button-outlined ui-button-sm ui-button-warning"
+                                                 action="#{parceladaBean.editarConta(c.id)}" />
+                                <p:spacer width="5" />
+                                <p:commandButton icon="pi pi-check"
+                                                 action="#{parceladaBean.pagarParcela(parcelas[0].id)}"
+                                                 title="Pagar próxima parcela"
+                                                 update="@form"
+                                                 styleClass="ui-button-success"
+                                                 style="margin-left: 0.5rem;" />
+                            </h:panelGroup>
+                        </h:panelGrid>
+
+                        <!-- Detalhes -->
+                        <div style="margin-top: 0.75rem; font-size: 0.9rem;">
+                            Total devedor: <strong>R$ #{c.valorTotalFormatado}</strong> •
+                            Parcelas pagas: <strong>#{c.parcelasPagas}/#{c.parcelas}</strong> •
+                            Valor por parcela: <strong>R$ #{c.valorParcelaFormatado}</strong> •
+                            Próximo vencimento:
+                            <strong style="font-size: 0.85rem;">
+                                #{empty c.proximoVencimento ? 'Finalizada' : c.proximoVencimento}
+                            </strong>
+                        </div>
+
+                        <!-- Barra de progresso -->
+                        <p:progressBar value="#{c.percentualPago}"
+                                       labelTemplate="{value}%"
+                                       style="margin-top:0.5rem"
+                                       rendered="#{c.status eq 'ativa'}" />
+                    </div>
+                </ui:repeat>
+            </div>
+        </h:form>
+
+    </ui:define>
+</ui:composition>

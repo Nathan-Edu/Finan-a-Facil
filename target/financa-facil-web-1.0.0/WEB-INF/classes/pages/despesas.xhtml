@@ -1,0 +1,93 @@
+<ui:composition template="/templates/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">Despesas</ui:define>
+
+    <ui:define name="content">
+        <h:form styleClass="page-container">
+            <style>
+                .titulo { font-size: 2rem; font-weight: bold; color: #b91c1c; }
+                .subtitulo { color: #6b7280; margin-bottom: 2rem; }
+                .search-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: #9ca3af; }
+                .input-pesquisa { padding-left: 2rem; width: 100%; height: 2.5rem; font-size: 1rem; }
+                .card-red { background: linear-gradient(to right, #ef4444, #b91c1c); color: white; border-radius: 10px; padding: 1.5rem; }
+                .despesa-lista { padding: 1rem; border-radius: 8px; background-color: #f9fafb; border: 1px solid #e5e7eb; }
+                .badge { padding: 0.2rem 0.6rem; border-radius: 6px; font-size: 0.75rem; }
+            </style>
+
+            <!-- Cabeçalho -->
+            <h:panelGrid columns="2" width="100%" columnClasses="left,right" style="margin-bottom: 2rem;">
+                <h:panelGroup>
+                    <h:outputText value="Despesas" styleClass="titulo" /><br/>
+                    <h:outputText value="Controle e gerencie seus gastos" styleClass="subtitulo" />
+                </h:panelGroup>
+                <p:commandButton value="Nova Despesa" icon="pi pi-plus"
+                                 action="/pages/despesasNova.xhtml?faces-redirect=true"
+                                 styleClass="ui-button-danger" />
+            </h:panelGrid>
+
+            <!-- Cartão Resumo -->
+            <h:panelGroup styleClass="card-red" layout="block" style="margin-bottom: 2rem">
+                <h:panelGrid columns="2" width="100%">
+                    <h:panelGroup>
+                        <h:outputText value="Total de Despesas" style="color: #fee2e2;" /><br/>
+                        <h:outputText value="#{despesaBean.totalDespesasFormatado}" style="font-size: 2rem; font-weight: bold;" /><br/>
+                        <h:outputText value="#{despesaBean.qtdDespesas} transações este mês" style="color: #fee2e2; font-size: 0.9rem;" />
+                    </h:panelGroup>
+                    <h:panelGroup style="text-align: right;">
+                        <i class="pi pi-arrow-down" style="font-size: 2rem; color: #fecaca;"></i>
+                    </h:panelGroup>
+                </h:panelGrid>
+            </h:panelGroup>
+
+            <!-- Filtros -->
+            <p:panel header="Filtros" style="margin-bottom: 2rem">
+                <h:panelGrid columns="2" columnClasses="ui-g-8,ui-g-4" style="width: 100%" cellpadding="5">
+                    <h:panelGroup style="position: relative;">
+                        <i class="pi pi-search search-icon" />
+                        <p:inputText placeholder="Buscar despesas..."
+                                     value="#{despesaBean.filtroDescricao}"
+                                     styleClass="input-pesquisa"
+                                     immediate="true" />
+                    </h:panelGroup>
+                    <p:selectOneMenu value="#{despesaBean.filtroCategoria}" style="width: 100%">
+                        <f:selectItem itemLabel="Todas as categorias" itemValue="ALL" />
+                        <f:selectItems value="#{despesaBean.categorias}" var="c"
+                                       itemLabel="#{c.label}" itemValue="#{c.codigo}" />
+                    </p:selectOneMenu>
+                </h:panelGrid>
+            </p:panel>
+
+            <!-- Lista de Despesas -->
+            <p:panel header="Lista de Despesas">
+                <ui:repeat var="d" value="#{despesaBean.despesasFiltradas}">
+                    <h:panelGrid columns="2" width="100%" columnClasses="ui-g-9,ui-g-3"
+                                 styleClass="despesa-lista" style="margin-bottom: 1rem;">
+                        <!-- Esquerda -->
+                        <h:panelGroup>
+                            <h:outputText value="#{d.descricao}" style="font-weight: bold" /><br/>
+                            <span class="badge" style="background-color: #{d.corCategoria}; color: #1f2937;">
+                                #{d.nomeCategoria}
+                            </span>
+                            <span style="font-size: 0.85rem; color: #6b7280; margin-left: 8px;">
+                                #{d.data} • #{d.formaPagamento}
+                            </span>
+                        </h:panelGroup>
+
+                        <!-- Direita -->
+                        <h:panelGroup style="text-align: right;">
+                            <h:outputText value="#{d.valorFormatado}" style="color: #dc2626; font-weight: bold; font-size: 1.2rem;" /><br/>
+                            <p:commandButton icon="pi pi-pencil" title="Editar" styleClass="ui-button-outlined ui-button-sm" />
+                            <p:spacer width="5"/>
+                            <p:commandButton icon="pi pi-trash" title="Excluir" styleClass="ui-button-danger ui-button-outlined ui-button-sm" />
+                        </h:panelGroup>
+                    </h:panelGrid>
+                </ui:repeat>
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>

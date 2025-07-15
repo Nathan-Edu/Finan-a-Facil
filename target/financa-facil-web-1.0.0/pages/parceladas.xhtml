@@ -1,0 +1,128 @@
+<ui:composition template="/templates/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">Contas Parceladas</ui:define>
+    <ui:define name="content">
+
+        <h:form styleClass="page-container">
+            <style>
+                .page-container { padding: 2rem; }
+
+                .header-bar {
+                  display: flex;
+                  align-items: center;
+                  justify-content: space-between;
+                  gap: 1rem;
+                  margin-bottom: 2rem;
+                }
+                .header-bar .titulo {
+                  font-size: 2rem;
+                  font-weight: bold;
+                  color: #1f2937;
+                  margin: 0;
+                }
+                .header-bar .subtitulo {
+                  font-size: 0.9rem;
+                  color: #6b7280;
+                  margin: 0.25rem 0 0;
+                }
+
+                .summary-grid {
+                  display: grid;
+                  gap: 1rem;
+                  margin-bottom: 2rem;
+                }
+                @media(min-width: 768px) {
+                  .summary-grid {
+                    grid-template-columns: repeat(4,1fr);
+                  }
+                }
+
+                .panel-card h:outputText {
+                  font-size: 1.5rem;
+                  font-weight: bold;
+                }
+
+                .list-item {
+                  margin-bottom: 1rem;
+                  padding: 1rem;
+                  border: 1px solid #e5e7eb;
+                  border-radius: 8px;
+                  background-color: #f8fafc;
+                }
+            </style>
+
+            <!-- Header + ação -->
+            <div class="header-bar">
+                <div>
+                    <h2 class="titulo">Contas Parceladas</h2>
+                    <p class="subtitulo">Controle suas compras parceladas</p>
+                </div>
+                <p:commandButton value="Nova Conta Parcelada"
+                                 icon="pi pi-plus"
+                                 styleClass="ui-button-primary"
+                                 action="/pages/parceladasNova.xhtml?faces-redirect=true"
+                                 style="height:2.5rem;" />
+            </div>
+
+            <!-- Resumo -->
+            <div class="summary-grid">
+                <p:panel styleClass="panel-card" header="Total em Aberto">
+                    <h:outputText value="R$ #{parceladaBean.totalDevedorFormatado}" style="color:#dc2626;" />
+                </p:panel>
+                <p:panel styleClass="panel-card" header="Contas Ativas">
+                    <h:outputText value="#{parceladaBean.qtdAtivas}" />
+                </p:panel>
+                <p:panel styleClass="panel-card" header="Contas Finalizadas">
+                    <h:outputText value="#{parceladaBean.qtdFinalizadas}" />
+                </p:panel>
+                <p:panel styleClass="panel-card" header="Próx. Vencimento">
+                    <h:outputText value="#{parceladaBean.proximoVencimentoFormatado}" />
+                </p:panel>
+            </div>
+
+            <!-- Lista de Contas Parceladas -->
+            <p:panel header="Suas Contas Parceladas">
+                <ui:repeat var="c" value="#{parceladaBean.lista}">
+                    <div class="list-item">
+                        <!-- Cabeçalho de cada conta -->
+                        <h:panelGrid columns="2" columnClasses="left,right">
+                            <h:panelGroup>
+                                <h:outputText value="#{c.descricao}" style="font-weight:bold" />
+                                <p:badge value="#{c.status}"
+                                         severity="#{c.status eq 'ativa' ? 'warning' : 'success'}" />
+                            </h:panelGroup>
+                            <h:panelGroup style="text-align: right;">
+                                <p:commandButton value="Ver Parcelas"
+                                                 styleClass="ui-button-outlined ui-button-sm" />
+                                <p:spacer width="5" />
+                                <p:commandButton value="Editar"
+                                                 styleClass="ui-button-outlined ui-button-sm" />
+                            </h:panelGroup>
+                        </h:panelGrid>
+
+                        <!-- Detalhes da parcela -->
+                        <h:panelGrid columns="4" style="margin-top:1rem;">
+                            <h:outputText value="Total: R$ #{c.valorTotalFormatado}" />
+                            <h:outputText value="Parcelas: #{c.parcelasPagas}/#{c.parcelas}" />
+                            <h:outputText value="Valor Parcela: R$ #{c.valorParcelaFormatado}" />
+                            <h:outputText value="Próx. Venc.: #{empty c.proximoVencimento ? 'Finalizada' : c.proximoVencimento}" />
+                        </h:panelGrid>
+
+                        <!-- Barra de progresso só se ativa -->
+                        <p:progressBar value="#{c.percentualPago}"
+                                       labelTemplate="{value}%"
+                                       style="margin-top:0.5rem"
+                                       rendered="#{c.status eq 'ativa'}" />
+                    </div>
+                </ui:repeat>
+            </p:panel>
+
+        </h:form>
+
+    </ui:define>
+</ui:composition>
